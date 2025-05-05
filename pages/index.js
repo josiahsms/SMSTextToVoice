@@ -51,16 +51,41 @@ export default function Home() {
         style={{ width: "100%", padding: "0.5rem", fontSize: "1rem", marginBottom: "1rem" }}
       />
       <br />
-      <button onClick={handleSynthesize} disabled={loading}>
+      <button onClick={handleSynthesize} disabled={loading} style={{ padding: "0.5rem 1rem", fontSize: "1rem", cursor: "pointer" }}>
         {loading ? "Synthesizing..." : "Convert to Speech"}
       </button>
 
       {audioUrl && (
         <div style={{ marginTop: "1.5rem" }}>
-          <button onClick={handlePlay} style={{ marginRight: "1rem" }}>
+          <button 
+            onClick={handlePlay} 
+            style={{ 
+              padding: "0.5rem 1rem", 
+              fontSize: "1rem", 
+              cursor: "pointer", 
+              marginRight: "1rem",
+              backgroundColor: "#4CAF50",
+              color: "white",
+              border: "none",
+              borderRadius: "4px"
+            }}
+          >
             ▶️ Play
           </button>
-          <a href={audioUrl} download="speech.mp3">
+          <a 
+            href={audioUrl} 
+            download="speech.mp3" 
+            style={{
+              padding: "0.5rem 1rem",
+              fontSize: "1rem",
+              cursor: "pointer",
+              backgroundColor: "#2196F3",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              textDecoration: "none"
+            }}
+          >
             ⬇️ Download
           </a>
         </div>
