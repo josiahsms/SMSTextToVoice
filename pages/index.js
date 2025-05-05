@@ -55,41 +55,24 @@ export default function Home() {
         {loading ? "Synthesizing..." : "Convert to Speech"}
       </button>
 
-      {audioUrl && (
-        <div style={{ marginTop: "1.5rem" }}>
-          <button 
-            onClick={handlePlay} 
-            style={{ 
-              padding: "0.5rem 1rem", 
-              fontSize: "1rem", 
-              cursor: "pointer", 
-              marginRight: "1rem",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              border: "none",
-              borderRadius: "4px"
-            }}
-          >
-            ▶️ Play
-          </button>
-          <a 
-            href={audioUrl} 
-            download="speech.mp3" 
-            style={{
-              padding: "0.5rem 1rem",
-              fontSize: "1rem",
-              cursor: "pointer",
-              backgroundColor: "#2196F3",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              textDecoration: "none"
-            }}
-          >
-            ⬇️ Download
-          </a>
-        </div>
-      )}
+     {audioUrl && (
+  <div className="mt-4 flex gap-4">
+    <button
+      onClick={handlePlay}
+      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      ▶️ Play
+    </button>
+    <a
+      href={audioUrl}
+      download="speech.mp3"
+      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-block"
+    >
+      ⬇️ Download
+    </a>
+  </div>
+)}
+
     </main>
   );
 }
