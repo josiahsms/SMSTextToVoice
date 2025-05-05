@@ -1,43 +1,67 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function Home() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
+  const [audioUrl, setAudioUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleSynthesize = async () => {
+    if (!text.trim()) return;
     setLoading(true);
-    const response = await fetch('/api/synthesize', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text }),
-    });
+    try {
+      const res = await fetch("/api/synthesize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
 
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
+      if (!res.ok) {
+        throw new Error("Failed to synthesize audio");
+      }
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'speech.mp3';
-    link.click();
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    window.URL.revokeObjectURL(url);
-    setLoading(false);
+  const handlePlay = () => {
+    if (audioUrl) {
+      const audio = new Audio(audioUrl);
+      audio.play();
+    }
   };
 
   return (
-    <div style={{ padding: 40, fontFamily: 'sans-serif' }}>
+    <main style={{ padding: "2rem", maxWidth: "600px", margin: "auto", fontFamily: "sans-serif" }}>
       <h1>Text to Speech</h1>
       <textarea
-        rows={6}
-        style={{ width: '100%', marginBottom: 16 }}
+        rows="4"
+        cols="50"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Enter text here..."
+        placeholder="Type your text here..."
+        style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }}
       />
-      <br />
-      <button onClick={handleSynthesize} disabled={loading || !text}>
-        {loading ? 'Generating...' : 'Download Audio'}
-      </button>
-    </div>
+      <div>
+        <button onClick={handleSynthesize} disabled={loading}>
+          {loading ? "Synthesizing..." : "Convert to Audio"}
+        </button>
+      </div>
+      {audioUrl && (
+        <div style={{ marginTop: "1rem" }}>
+          <button onClick={handlePlay}>▶️ Play</button>
+          &nbsp;
+          <a href={audioUrl} download="speech.mp3">
+            ⬇️ Download
+          </a>
+        </div>
+      )}
+    </main>
   );
 }
