@@ -33,13 +33,6 @@ export default function Home() {
     }
   };
 
-  const handlePlay = () => {
-    if (audioUrl) {
-      const audio = new Audio(audioUrl);
-      audio.play();
-    }
-  };
-
   return (
     <main style={{ padding: "2rem", fontFamily: "sans-serif", maxWidth: "600px", margin: "auto" }}>
       <h1>Text to Speech</h1>
@@ -57,12 +50,8 @@ export default function Home() {
 
       {audioUrl && (
         <div style={{ marginTop: "1.5rem" }}>
-          <button onClick={handlePlay} style={{ marginRight: "1rem" }}>
-            ▶️ Play
-          </button>
-          <a href={audioUrl} download="speech.mp3">
-            ⬇️ Download
-          </a>
+          <audio controls src={audioUrl} style={{ display: "block", marginBottom: "1rem" }} />
+          <a href={audioUrl} download="speech.mp3">⬇️ Download</a>
         </div>
       )}
     </main>
